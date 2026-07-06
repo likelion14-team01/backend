@@ -12,7 +12,14 @@ public enum GlobalErrorCode implements BaseErrorCode {
   RESOURCE_NOT_FOUND("G002", "요청한 리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   INTERNAL_SERVER_ERROR("G003", "서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
   METHOD_NOT_ALLOWED("G004", "지원하지 않는 HTTP 메서드입니다.", HttpStatus.METHOD_NOT_ALLOWED),
-  TYPE_MISMATCH("G005", "요청 인자의 데이터 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+  TYPE_MISMATCH("G005", "요청 인자의 데이터 타입이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+
+  // 잎새로그 도메인 에러코드
+  FILE_REQUIRED("G006", "업로드할 파일이 없습니다.", HttpStatus.BAD_REQUEST),
+  INVALID_IMAGE_TYPE("G007", "이미지 파일 형식이 아닙니다.", HttpStatus.BAD_REQUEST),
+  SPECIES_NOT_FOUND("G008", "존재하지 않는 종입니다.", HttpStatus.NOT_FOUND),
+  PLANT_NOT_FOUND("G009", "존재하지 않는 식물입니다.", HttpStatus.NOT_FOUND),
+  DEAD_PLANT_RECORD_FORBIDDEN("G010", "이미 죽은 식물에는 기록을 저장할 수 없습니다.", HttpStatus.BAD_REQUEST);
 
   private final String code;
   private final String message;

@@ -5,11 +5,13 @@ import com.likelion.collab_session.global.exception.model.BaseErrorCode;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 @Slf4j
 @RestControllerAdvice
@@ -36,6 +38,26 @@ public class GlobalExceptionHandler {
     return ResponseEntity.badRequest().body(
         BaseResponse.error(GlobalErrorCode.INVALID_INPUT_VALUE.getCode(),
             GlobalErrorCode.INVALID_INPUT_VALUE.getMessage()));
+  }
+
+  // 요청 본문 JSON 파싱 실패 (예: changedTag에 존재하지 않는 enum 값 전달)
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  protected ResponseEntity<BaseResponse<?>> handleHttpMessageNotReadableException(
+      HttpMessageNotReadableException ex) {
+    log.warn("HttpMessageNotReadableException 발생: {}", ex.getMessage());
+    return ResponseEntity.badRequest().body(
+        BaseResponse.error(GlobalErrorCode.INVALID_INPUT_VALUE.getCode(),
+            GlobalErrorCode.INVALID_INPUT_VALUE.getMessage()));
+  }
+
+  // multipart 요청에 필수 파트(file 등)가 아예 없을 때 (POST /api/photos 파일 누락)
+  @ExceptionHandler(MissingServletRequestPartException.class)
+  protected ResponseEntity<BaseResponse<?>> handleMissingServletRequestPartException(
+      MissingServletRequestPartException ex) {
+    log.warn("MissingServletRequestPartException 발생: {}", ex.getMessage());
+    return ResponseEntity.status(GlobalErrorCode.FILE_REQUIRED.getStatus())
+        .body(BaseResponse.error(GlobalErrorCode.FILE_REQUIRED.getCode(),
+            GlobalErrorCode.FILE_REQUIRED.getMessage()));
   }
 
   // 지원하지 않는 HTTP Method 호출 시
