@@ -29,6 +29,19 @@ public class RecordResDto {
   @Schema(description = "성장 태그")
   private final GrowthTag growthTag;
 
+  // ===== 프론트 호환용 별칭 필드 =====
+
+  @Schema(description = "(프론트 호환) 소문자 태그 — sprout/leaf/bloom/farewell (태그 없으면 null)")
+  public String getTag() {
+    return growthTag == null ? null : growthTag.toFrontTag();
+  }
+
+  @Schema(description = "(프론트 호환) 'M월 d일' 표시 텍스트", example = "6월 14일")
+  public String getDate() {
+    return recordDate == null ? null
+            : recordDate.format(java.time.format.DateTimeFormatter.ofPattern("M월 d일"));
+  }
+
   private RecordResDto(LocalDate recordDate, int dayNumber, boolean watered, String photoUrl,
       String note, GrowthTag growthTag) {
     this.recordDate = recordDate;
