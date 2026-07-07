@@ -39,7 +39,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            PID=$(pgrep -f 'java.*SNAPSHOT\.jar' || true)
+            PID=$(pgrep -x java || true)
             if [ -n "$PID" ]; then
               kill -15 $PID
               sleep 5
@@ -48,7 +48,7 @@ jobs:
             JAR=$(ls -t *SNAPSHOT.jar | head -n 1)
             nohup java -jar "$JAR" > app.log 2>&1 &
             sleep 5
-            if pgrep -f 'java.*SNAPSHOT\.jar' > /dev/null; then
+            if pgrep -x java > /dev/null; then
               echo "배포 성공: $JAR"
             else
               echo "앱 시작 실패 — app.log 마지막 50줄:"
