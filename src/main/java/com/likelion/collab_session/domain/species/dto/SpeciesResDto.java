@@ -30,6 +30,13 @@ public class SpeciesResDto {
     @Schema(description = "계산·프리필용 대표 주기(일)", example = "7")
     private int wateringIntervalDays;
 
+    // ===== 프론트 호환용 별칭 필드 =====
+
+    @Schema(description = "(프론트 호환) intervalText와 동일", example = "5~7일")
+    public String getWaterCycleText() {
+        return intervalText;
+    }
+
     public static SpeciesResDto from(Species species) {
         return SpeciesResDto.builder()
                 .speciesId(species.getId())

@@ -86,6 +86,12 @@ public class PlantCardResDto {
         return waterDday <= 0 ? "오늘 물주기" : waterDday + "일후 물주기";
     }
 
+
+    @Schema(description = "(프론트 호환) 기록 화면 이동 경로", example = "/record/1")
+    public String getPath() {
+        return "/record/" + plantId;
+    }
+
     /** 등록 직후 응답용 — 기록이 아직 없으므로 초기값으로 채운다 */
     public static PlantCardResDto ofNew(Plant plant) {
         Species species = plant.getSpecies();
