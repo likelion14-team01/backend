@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @Tag(name = "Record", description = "기록 저장/조회 API")
 @RestController
@@ -38,8 +39,9 @@ public class RecordController {
   }
 
   @Operation(summary = "기록 조회")
+  @ApiResponse(responseCode = "204", description = "해당 날짜 기록 없음 (에러 아님, 빈 폼 처리)")
   @GetMapping
-  public ResponseEntity<Object> getRecord(
+  public ResponseEntity<BaseResponse<RecordResDto>> getRecord(
       @PathVariable Long plantId,
       @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate recordDate) {
     Optional<RecordResDto> result = recordService.getRecord(plantId, recordDate);
