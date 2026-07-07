@@ -21,7 +21,7 @@ spring:
 
 cors:
   #  TODO : 실제 배포된 프론트 주소 변경할것
-  allowed-origins: http://localhost:3000,http://localhost:5173,https://your-react-app.vercel.app
+  allowed-origins: http://localhost:3000,http://localhost:5173,https://likelion14-team01.netlify.app/
 
 # 사진 업로드 파일 저장 경로 (프로젝트 루트 기준 상대경로)
 file:
