@@ -8,10 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Plant", description = "식물 API")
 @RestController
@@ -25,5 +24,11 @@ public class PlantController {
     @PostMapping
     public BaseResponse<PlantCardResDto> createPlant(@Valid @RequestBody CreatePlantReqDto reqDto) {
         return BaseResponse.success(201, "식물이 등록되었습니다.", plantService.createPlant(reqDto));
+    }
+
+    @Operation(summary = "홈 식물 목록 조회", description = "홈 화면 카드 목록을 반환합니다. D-day, 스트릭, 최근 소식 등 계산 필드는 서버가 계산해 내려줍니다.")
+    @GetMapping
+    public BaseResponse<List<PlantCardResDto>> getPlantCards() {
+        return BaseResponse.success(plantService.getPlantCards());
     }
 }

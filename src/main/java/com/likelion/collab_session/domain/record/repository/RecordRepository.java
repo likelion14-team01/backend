@@ -2,6 +2,7 @@ package com.likelion.collab_session.domain.record.repository;
 
 import com.likelion.collab_session.domain.record.entity.Record;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,6 @@ public interface RecordRepository extends JpaRepository<Record, Long> {
 
   // (타임라인 표시) 오래된순 기록 표시
   List<Record> findByPlantIdOrderByRecordDateAsc(Long plantId);
+
+  List<Record> findAllByPlantIdInOrderByRecordDateAsc(List<Long> plantIds);
 }
