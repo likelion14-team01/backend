@@ -2,6 +2,7 @@ package com.likelion.collab_session.domain.photo.controller;
 
 import com.likelion.collab_session.domain.photo.dto.PhotoResDto;
 import com.likelion.collab_session.domain.photo.service.PhotoService;
+import com.likelion.collab_session.global.common.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,11 @@ public class PhotoController {
 
   @Operation(summary = "사진 업로드")
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<PhotoResDto> uploadPhoto(@RequestParam("file") MultipartFile file){
+  public ResponseEntity<BaseResponse<PhotoResDto>> uploadPhoto(
+      @RequestParam("file") MultipartFile file) {
     String photoUrl = photoService.store(file);
-    return ResponseEntity.status(HttpStatus.CREATED).body(PhotoResDto.of(photoUrl));
+    BaseResponse<PhotoResDto> response =
+        BaseResponse.success(201, "사진이 업로드되었습니다.", PhotoResDto.of(photoUrl));
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
-
 }
