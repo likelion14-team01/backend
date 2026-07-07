@@ -46,7 +46,7 @@ jobs:
             fi
             cd /home/ubuntu
             JAR=$(ls -t *SNAPSHOT.jar | head -n 1)
-            nohup java -jar "$JAR" > app.log 2>&1 &
+            nohup java -Duser.timezone=Asia/Seoul -jar "$JAR" > app.log 2>&1 &
             sleep 5
             if pgrep -x java > /dev/null; then
               echo "배포 성공: $JAR"
