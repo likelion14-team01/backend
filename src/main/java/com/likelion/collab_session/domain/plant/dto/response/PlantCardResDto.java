@@ -63,6 +63,29 @@ public class PlantCardResDto {
     @Schema(description = "함께한 일수 — dead=true일 때만", example = "37")
     private Integer daysTogether;
 
+    // ===== 프론트 호환용 별칭 필드 (기존 필드는 그대로 유지) =====
+
+    @Schema(description = "(프론트 호환) nickname과 동일")
+    public String getName() {
+        return nickname;
+    }
+
+    @Schema(description = "(프론트 호환) 'N일째' 표시 텍스트", example = "22일째")
+    public String getDayText() {
+        return daysSinceStart + "일째";
+    }
+
+    @Schema(description = "(프론트 호환) 'N일마다' 표시 텍스트", example = "7일마다")
+    public String getWaterCycleText() {
+        return wateringIntervalDays + "일마다";
+    }
+
+    @Schema(description = "(프론트 호환) 물주기 안내 텍스트", example = "3일후 물주기")
+    public String getNextWateringText() {
+        if (dead || waterDday == null) return "";
+        return waterDday <= 0 ? "오늘 물주기" : waterDday + "일후 물주기";
+    }
+
     /** 등록 직후 응답용 — 기록이 아직 없으므로 초기값으로 채운다 */
     public static PlantCardResDto ofNew(Plant plant) {
         Species species = plant.getSpecies();
